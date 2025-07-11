@@ -25,20 +25,20 @@ npm install
 To build and run the app locally:
 
 bash
-Copy code
+
 npm run start
 Compiles TypeScript and launches the Electron app.
 
 📦 Build for Distribution
 bash
-Copy code
+
 npm run build       # Builds the renderer (HTML, CSS, JS)
 npm run package     # Packages the app using electron-builder
 Output installers will be available in the dist/ folder.
 
 🧱 Project Structure
 bash
-Copy code
+
 slimpay-status-widget/
 ├── src/
 │   ├── main.ts          # Electron main process
@@ -57,12 +57,12 @@ Make sure your preload.ts is compiled to dist/preload.js
 Ensure webPreferences.preload in main.ts is correctly set:
 
 ts
-Copy code
+
 preload: path.join(__dirname, 'preload.js'),
 You must expose API safely via contextBridge in preload.ts:
 
 ts
-Copy code
+
 contextBridge.exposeInMainWorld('api', {
   minimize: () => ipcRenderer.send('window-minimize'),
   close: () => ipcRenderer.send('window-close')
@@ -70,7 +70,7 @@ contextBridge.exposeInMainWorld('api', {
 In your renderer code (widget.ts), use:
 
 ts
-Copy code
+
 window.api.minimize();
 window.api.close();
 🧠 Troubleshooting
@@ -81,7 +81,7 @@ SyntaxError: Cannot use import statement outside a module
 → Electron expects CommonJS in preload scripts. Use tsconfig with:
 
 json
-Copy code
+
 {
   "compilerOptions": {
     "module": "ESNext",
@@ -95,7 +95,7 @@ Reduce Package Size
 → Use extraFiles, files, and exclude dev dependencies in electron-builder config:
 
 json
-Copy code
+
 "build": {
   "files": [
     "dist/**/*"
