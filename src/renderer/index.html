@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>SlimPay Status</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="titlebar">
+    <div class="window-controls">
+      <button id="minimize">–</button>
+      <button id="close">×</button>
+    </div>
+  </div>
+  <div class="widget">
+    <h2>SlimPay Status</h2>
+    <div class="refresh-controls">
+      <label for="refresh-interval">Refresh every:</label>
+      <select id="refresh-interval">
+        <option value="10">10s</option>
+        <option value="30" selected>30s</option>
+        <option value="60">60s</option>
+        <option value="120">120s</option>
+      </select>
+      <span id="countdown">Next update in: 30s</span>
+    </div>
+    <div id="status-list">Loading...</div>
+  </div>
+  <script type="module" src="widget.js"></script>
+</body>
+
+</html>

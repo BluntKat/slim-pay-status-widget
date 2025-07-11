@@ -1,0 +1,21 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Electron: Main",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceFolder}/node_modules/electron/dist/electron.js",
+      "args": ["."],
+      "cwd": "${workspaceFolder}",
+      "windows": {
+        "program": "${workspaceFolder}/node_modules/electron/dist/electron.exe"
+      },
+      "runtimeArgs": [],
+      "outputCapture": "std",
+      "env": {
+        "NODE_ENV": "development"
+      }
+    }
+  ]
+}

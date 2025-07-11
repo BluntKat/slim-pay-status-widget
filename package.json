@@ -1,0 +1,35 @@
+{
+  "name": "slimpay-status-widget",
+  "version": "1.0.0",
+  "description": "Electron widget for SlimPay status",
+  "main": "dist/main.js",
+  "scripts": {
+    "start": "npm run build && electron .",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.preload.json && cpx \"src/renderer/**/*.{html,css}\" dist/renderer",
+    "package": "electron-builder"
+  },
+  "type": "module",
+  "author": "You",
+  "license": "MIT",
+  "devDependencies": {
+    "cpx": "^1.5.0",
+    "electron": "^30.0.0",
+    "electron-builder": "^24.6.3",
+    "typescript": "^5.4.0"
+  },
+  "build": {
+    "asar" : true,
+    "appId": "com.slimpay.statuswidget",
+    "productName": "SlimPayStatusWidget",
+    "files": [
+      "dist/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico"
+    }
+  }
+}
