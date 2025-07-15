@@ -53,6 +53,18 @@ h2 {
   flex-shrink: 0;
 }
 
+.green {
+  background-color: #4caf50;
+}
+.yellow {
+  background-color: yellow;
+}
+.orange {
+  background-color: orange;
+}
+.red {
+  background-color: red;
+}
 .status-ok {
   background-color: #4caf50;
 }
@@ -119,7 +131,32 @@ h2 {
   padding: 2px 6px;
   margin-right: 10px;
 }
-
+.mode-selection select{
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 2px 6px;
+  margin-right: 10px;
+}
+.mode-selection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+  color: #fff;
+  -webkit-app-region: no-drag;
+}
 #countdown {
   font-style: italic;
+}
+
+.overall-view-description {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0);
+  font-size: 0.95rem;
 }

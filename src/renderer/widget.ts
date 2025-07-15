@@ -2,6 +2,8 @@ let refreshInterval = 30; // default seconds
 let countdown = refreshInterval;
 let intervalId: any = null;
 let countdownId: any = null;
+let mode : "component-view" | "overall-view" = "component-view";
+let clearOnNextRefresh = false;
 
 function startTimers() {
   console.log("Starting timers")
@@ -31,13 +33,29 @@ function setupRefreshControl() {
   });
 }
 
+function setupModeControl(){
+    const select = document.getElementById("mode-control") as HTMLSelectElement;
+    select.addEventListener("change", () => {
+    console.log(select.value);
+    mode = select.value === "overall-view" ? "overall-view" : "component-view";
+    console.log("View mode changed to : " + mode);
+    clearOnNextRefresh = true;
+    fetchStatus();
+  });
+}
+
 async function fetchStatus() {
   console.log("Fetching SlimPay status, may god be with us")
   try {
-    const res = await fetch('https://status.slimpay.com/api/v2/components.json');
+    const res = mode == "component-view" ? await fetch('https://status.slimpay.com/api/v2/components.json') : await fetch(' https://status.slimpay.com/api/v2/status.json');
     console.log(res);
     const data = await res.json();
-    renderStatus(data.components);
+    if (mode === 'component-view'){
+      renderStatus(data.components);
+    }
+    else {
+      renderOverallStatus(data);
+    }
   } catch (error) {
     console.error("Failed to fetch status:", error);
   }
@@ -59,6 +77,10 @@ function renderStatus(components: any[]) {
 
   list.innerHTML = '';
 
+  if (clearOnNextRefresh){
+    clearOverallData();
+  } 
+
   const seen = new Set<string>();
   components.forEach(component => {
     if (seen.has(component.name)) return;
@@ -78,6 +100,28 @@ function renderStatus(components: any[]) {
     item.appendChild(dot);
     list.appendChild(item);
   });
+}
+function renderOverallStatus(data: any) {
+  const list = document.getElementById('status-list');
+  if (!list) return;
+
+  list.innerHTML = '';
+
+  console.log(data);
+  if (clearOnNextRefresh) {
+    clearComponentData();
+  }
+  let item = document.createElement("div");
+  let status = document.createElement("div");
+  item.className = "overall-view";
+  status.className = "overall-view-description"
+  status.textContent = data.status.description;
+  const dot = document.createElement('div');
+  dot.className = `status-dot ${getOverallStatusClass(data.status.indicator)}`;
+  dot.title = "Problem level : " + data.status.indicator;
+  status.appendChild(dot);
+  item.appendChild(status);
+  list.appendChild(item);
 }
 
 
@@ -99,5 +143,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
   fetchStatus();
   setupRefreshControl();
+  setupModeControl();
   startTimers();
 });
+
+function clearComponentData(){
+  let statusItems = document.getElementsByClassName("status-item");
+  Array.from(statusItems).forEach(el => {
+    el.remove();
+  })
+}
+function clearOverallData(){
+  let statusItem = document.getElementsByClassName("overall-view");
+  Array.from(statusItem).forEach(el => {
+    el.remove();
+  })
+}
+
+function getOverallStatusClass(status : string){
+  switch (status) {
+    case "none" : return "green";
+    case "minor" : return "yellow";
+    case "major" : return "red";
+    default: return "green";
+  }
+}
