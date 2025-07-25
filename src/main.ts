@@ -29,8 +29,8 @@ function createWindow() {
   });
   console.log(path.join(__dirname, 'renderer/index.html'));
   mainWindow.loadFile(path.join(__dirname, 'renderer/index.html'));
-  //Decomment the next line for Dev Tools :) Hope u don't need that
-  mainWindow.webContents.openDevTools();
+  //Decomment the next line for Dev Tools :) Hope u don't need that, too idiot, ctrl shift i is fine ahahah
+  // mainWindow.webContents.openDevTools();
 
   mainWindow.on('closed', () => {
     mainWindow = null;

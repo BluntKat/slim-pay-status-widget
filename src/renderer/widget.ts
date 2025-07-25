@@ -56,6 +56,11 @@ async function fetchStatus() {
     else {
       renderOverallStatus(data);
     }
+    //Refresh maintenance status
+    const maintenances = await (await fetch ('https://status.slimpay.com/api/v2/scheduled-maintenances/upcoming.json')).json();
+    if (!!maintenances){
+      renderMaintenances(maintenances);
+    }
   } catch (error) {
     console.error("Failed to fetch status:", error);
   }
@@ -166,5 +171,29 @@ function getOverallStatusClass(status : string){
     case "minor" : return "yellow";
     case "major" : return "red";
     default: return "green";
+  }
+}
+
+function renderMaintenances(obj: any) {
+  console.log(obj);
+  const list = document.getElementById('maintenance-list');
+  if (!list) return;
+
+  // Remove all child elements
+  while (list.firstChild) {
+    list.removeChild(list.firstChild);
+  }
+
+  if (obj.scheduled_maintenances.length === 0) {
+    const el = document.createElement('li');
+    el.textContent = "No scheduled maintenances";
+    list.appendChild(el);
+  } else {
+    obj.scheduled_maintenances.forEach((maintenance: any) => {
+      const el = document.createElement('li');
+      el.className = "maintenance-item";
+      el.innerHTML = `<strong>${maintenance.title}</strong> - ${maintenance.description} <br> <span class="maintenance-time">Scheduled for: ${new Date(maintenance.start_at).toLocaleString()} to ${new Date(maintenance.end_at).toLocaleString()}</span>`;
+      list.appendChild(el);
+    });
   }
 }

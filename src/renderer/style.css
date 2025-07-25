@@ -156,3 +156,27 @@ h2 {
 #countdown {
   font-style: italic;
 }
+.collapsable_card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  margin-top: 10px;
+}
+.collapsable_card_content {
+  padding: 10px;
+}
+.collapsable_card.active .collapsable_card_content {
+  display: block;
+}
+.collapsable_card h3 {
+  cursor: pointer;
+  margin: 0;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px
+}
+.collapsable_card h3:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+.collapsable_card h3:active {
+  background: rgba(255, 255, 255, 0.4);
+}
